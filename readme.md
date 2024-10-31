@@ -1,6 +1,6 @@
 # Cloudflare & K6 Monitoring Grafana Prometheus Stack
 
-This repository outlines my comprehensive monitoring stack designed to support performance testing with [k6](https://k6.io/) and Cloudflare Analytics monitoring for multiple Cloudflare domain zones within a Cloudflare account for Cloudflare HTTP Traffic, WAF Firewall, Workers, R2 S3 storage and Cloudflare Tunnel metrics. Though you will need a Cloudflare Pro plan or higher account if you want full analytics overview. It integrates several powerful tools, including Prometheus, Thanos, InfluxDB, Grafana, and various exporters, to offer a scalable and robust solution for collecting, storing, and visualizing metrics.
+This repository outlines my comprehensive monitoring stack designed to support performance testing with [k6](https://k6.io/) and Cloudflare Analytics monitoring for multiple Cloudflare domain zones within a Cloudflare account for Cloudflare HTTP Traffic, WAF Firewall, Workers, R2 S3 storage and Cloudflare Tunnel metrics. Though you will need a Cloudflare Pro plan or higher account if you want full analytics overview. It integrates several powerful tools, including [Prometheus](https://prometheus.io/), [Thanos](https://thanos.io/), [InfluxDB](https://www.influxdata.com/products/influxdb/), [Grafana](https://www.influxdata.com/products/influxdb/), and various exporters, to offer a scalable and robust solution for collecting, storing, and visualizing metrics.
 
 ## Table of Contents
 
