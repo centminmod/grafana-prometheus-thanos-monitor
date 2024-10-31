@@ -16,6 +16,7 @@ This repository outlines my comprehensive monitoring stack designed to support p
 - **Integration with k6**: Seamless support for performance testing metrics (https://github.com/centminmod/k6-benchmarking).
 - **Cloudflare Integration**: Collect metrics from Cloudflare using the [Cloudflare exporter](https://hub.docker.com/r/cyb3rjak3/cloudflare-exporter) and for Cloudflare Tunnels https://developers.cloudflare.com/cloudflare-one/tutorials/grafana/.
 - **System Monitoring**: Node Exporter and Telegraf for comprehensive system metrics.
+- **Alert Management**: Integrated AlertManager for sophisticated alert handling and email notifications.
 
 ## Screenshots
 
@@ -53,25 +54,57 @@ graph TD
     F[Thanos Compactor]
   end
 
-  G[Prometheus]
-  H[Node Exporter]
-  I[Cloudflare Exporter]
-  J[Telegraf]
-  K[InfluxDB]
-  L[Grafana]
+  subgraph "Monitoring & Alerting"
+    G[Prometheus]
+    M[AlertManager]
+    N[Email Notifications]
+  end
 
-  H --> G
-  I --> G
-  J --> K
-  G --> C
-  C --> B
-  F --> B
-  D --> B
-  D --> E
-  C --> E
-  E --> L
-  K --> L
-  A --> I
+  subgraph "Metrics Collection"
+    H[Node Exporter]
+    I[Cloudflare Exporter]
+    J[Telegraf]
+  end
+
+  subgraph "Storage & Visualization"
+    K[InfluxDB]
+    L[Grafana]
+  end
+
+  %% Metric Collection Flows
+  H -->|system metrics| G
+  I -->|cloudflare metrics| G
+  J -->|system metrics| K
+  A -->|metrics data| I
+
+  %% Thanos Data Flow
+  G -->|metrics| C
+  C -->|long-term storage| B
+  F -->|compaction| B
+  D -->|historical data| B
+  D -->|querying| E
+  C -->|realtime data| E
+  E -->|unified view| L
+
+  %% AlertManager Flow
+  G -->|alerts| M
+  M -->|notifications| N
+
+  %% Visualization Flow
+  K -->|metrics| L
+  E -->|metrics| L
+
+  classDef cloudflare fill:#F6821F,stroke:#fff,stroke-width:2px,color:#fff
+  classDef thanos fill:#00939C,stroke:#fff,stroke-width:2px,color:#fff
+  classDef monitoring fill:#E6522C,stroke:#fff,stroke-width:2px,color:#fff
+  classDef metrics fill:#3B5CDB,stroke:#fff,stroke-width:2px,color:#fff
+  classDef storage fill:#00B39F,stroke:#fff,stroke-width:2px,color:#fff
+
+  class A,B cloudflare
+  class C,D,E,F thanos
+  class G,M,N monitoring
+  class H,I,J metrics
+  class K,L storage
 ```
 
 The stack consists of the following components:
@@ -125,5 +158,55 @@ The stack consists of the following components:
     - **Role**: The Cloudflare Exporter collects metrics from Cloudflare's API, exposing them in a format that Prometheus can scrape.
     - **Functionality**: This exporter retrieves data on Cloudflare’s service metrics, such as HTTP requests, cache usage, threats detected, and other Cloudflare-specific metrics that are useful for understanding application performance and security at the edge.
     - **Advantages**: Integrating Cloudflare metrics provides visibility into web traffic and security metrics, enabling you to monitor the health and performance of my Cloudflare-protected assets alongside other infrastructure components.
+
+11. **AlertManager**:
+    - **Role**: AlertManager handles alerts sent by Prometheus, providing sophisticated alert routing, grouping, and notification delivery.
+    - **Functionality**: 
+      - Manages alert deduplication and grouping to prevent notification spam
+      - Routes alerts to different receivers based on severity levels (critical/warning)
+      - Handles email notification delivery with secure SMTP configuration
+      - Supports notification throttling and silencing
+    - **Features**:
+      - Configurable alert grouping to reduce noise
+      - Separate routing for critical and warning alerts
+      - Email templates for clear, actionable notifications
+      - Integration with Prometheus alert rules for:
+        - Cloudflare metrics monitoring
+        - System resources (CPU, memory, disk)
+        - Service availability
+        - Metric collection health
+    - **Benefits**: 
+      - Reduces alert fatigue through intelligent grouping
+      - Ensures critical issues are noticed and addressed promptly
+      - Provides clear, actionable notifications via email
+      - Helps maintain system reliability through early warning system
+
+## Alert Rules
+
+Each alert category is configured with appropriate severity levels and timing thresholds to minimize false positives while ensuring timely notification of genuine issues.
+
+The monitoring stack includes several categories of alert rules:
+
+1. **Cloudflare Monitoring**:
+   - Cloudflare exporter availability
+   - Worker request staleness detection
+   - Critical metric absence monitoring
+
+2. **Infrastructure Monitoring**:
+   - Host memory utilization
+   - High CPU load detection
+   - Disk space monitoring
+   - Node availability checks
+
+3. **Service Health**:
+   - Prometheus configuration reload status
+   - AlertManager configuration status
+   - Target scrape health
+   - TSDB compaction issues
+
+4. **System Resources**:
+   - Memory usage thresholds
+   - CPU utilization limits
+   - Storage capacity warnings
 
 This setup is highly modular and provides a comprehensive monitoring and visualization stack, enabling you to monitor and manage both system health and performance testing results in a unified view. Each component serves a specific role, contributing to scalability, historical data retention, and actionable insights for better system observability and performance.
