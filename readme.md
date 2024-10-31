@@ -107,6 +107,32 @@ graph TD
   class K,L storage
 ```
 
+Metrics flow:
+
+```mermaid
+graph TB
+    A[Raw Metrics Collection<br/>15s intervals] --> B[Memory & WAL]
+    B --> C[2h TSDB Blocks<br/>Full Resolution]
+    C --> D[Raw Storage<br/>0-190 days]
+    C --> E[Downsampling<br/>after 40h]
+    E --> F[5min Resolution<br/>0-365 days]
+    E --> G[1h Resolution<br/>0-1500 days]
+    
+    D --> H[Marked for Deletion]
+    F --> H
+    G --> H
+    H --> I[Deleted after<br/>72h delay]
+    style A fill:#F6821F,stroke:#fff,stroke-width:2px,color:#fff
+    style B fill:#00939C,stroke:#fff,stroke-width:2px,color:#fff
+    style C fill:#E6522C,stroke:#fff,stroke-width:2px,color:#fff
+    style D fill:#3B5CDB,stroke:#fff,stroke-width:2px,color:#fff
+    style E fill:#00B39F,stroke:#fff,stroke-width:2px,color:#fff
+    style F fill:#F6821F,stroke:#fff,stroke-width:2px,color:#fff
+    style G fill:#00939C,stroke:#fff,stroke-width:2px,color:#fff
+    style H fill:#E6522C,stroke:#fff,stroke-width:2px,color:#fff
+    style I fill:#3B5CDB,stroke:#fff,stroke-width:2px,color:#fff
+```
+
 The stack consists of the following components:
 
 1. **Prometheus**:
