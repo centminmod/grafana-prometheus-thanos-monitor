@@ -6,6 +6,7 @@ This repository outlines my comprehensive monitoring stack designed to support p
 
 - [Features](#features)
 - [Architecture](#architecture)
+- [n8n AI Agent Automation](#n8n-ai-agent-automation)
 
 ---
 
@@ -236,3 +237,13 @@ The monitoring stack includes several categories of alert rules:
    - Storage capacity warnings
 
 This setup is highly modular and provides a comprehensive monitoring and visualization stack, enabling you to monitor and manage both system health and performance testing results in a unified view. Each component serves a specific role, contributing to scalability, historical data retention, and actionable insights for better system observability and performance.
+
+## n8n AI Agent Automation
+
+Now that I have Cloudflare Analytics metrics recorded by Prometheus server, I can setup a self-hosted [n8n.io](https://n8n.io/) running with PostgreSQL 17 database server instance workflow to create a n8n OpenAI AI Agent chat bot to be able to query my Prometheus server and grab my Cloudflare metrics for unique visitors, pageviews, requests, worker requests, bandwidth and R2 S3 object storage usage. I am using OpenAI's GPT 4o-mini model for OpenAI Agent.
+
+![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v7-00.png)
+
+![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v7-01.png)
+
+![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v7-02.png)
