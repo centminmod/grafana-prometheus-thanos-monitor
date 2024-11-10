@@ -242,8 +242,10 @@ This setup is highly modular and provides a comprehensive monitoring and visuali
 
 Now that I have Cloudflare Analytics metrics recorded by Prometheus server, I can setup a self-hosted [n8n.io](https://n8n.io/) running with PostgreSQL 17 database server instance workflow to create a n8n OpenAI AI Agent chat bot to be able to query my Prometheus server and grab my Cloudflare metrics for unique visitors, pageviews, requests, worker requests, bandwidth and R2 S3 object storage usage. I am using OpenAI's GPT 4o-mini model for OpenAI Agent.
 
-![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v7-00.png)
+![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v8-00.png)
 
-![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v7-01.png)
+![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v8-01.png)
 
-![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v7-02.png)
+![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v8-02.png)
+
+![n8n OpenAI AI Agent chat bot for Cloudflare Metrics](/screenshots/n8n-prometheus-cloudflare-metrics-standalone-v8-03.png)
